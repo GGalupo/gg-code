@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="38.797604mm"
+   height="6.541553mm"
+   viewBox="0 0 38.797604 6.541553"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="Logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="5.9295175"
+     inkscape:cx="78.083925"
+     inkscape:cy="35.163063"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g6433" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-59.103765,-95.133571)">
+    <g
+       style="display:inline;fill:none"
+       id="g6433"
+       transform="matrix(0.26458333,0,0,0.26458333,59.103765,94.987238)">
+      <path
+         d="m 143.91701,20.328965 c 1.091,0 2.037,-0.9119 2.045,-2.0455 -0.008,-1.1164 -0.954,-2.0284 -2.045,-2.0284 -1.125,0 -2.054,0.912 -2.045,2.0284 -0.009,1.1336 0.92,2.0455 2.045,2.0455 z"
+         fill="#ff57b2"
+         id="path6407" />
+      <path
+         d="M 9.88103,0.55307 0,12.0576 9.88103,23.5601 12.2174,19.8829 5.55897,12.0556 12.2174,4.2283 Z M 14.2051,23.2854 h 4.3364 L 25.4359,0.764989 H 21.0974 Z M 30.119,0.55307 27.7826,4.23027 34.441,12.0576 27.7826,19.8849 30.119,23.562 40,12.0595 Z"
+         fill="#ff57b2"
+         id="path6409" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:24px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy';fill:#f8f8f8;fill-opacity:1"
+         x="51.100277"
+         y="20.284863"
+         id="text7732"><tspan
+           sodipodi:role="line"
+           id="tspan7730"
+           x="51.100277"
+           y="20.284863"
+           style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:24px;font-family:Roboto;-inkscape-font-specification:'Roboto Heavy'">gg code</tspan></text>
+    </g>
+  </g>
+</svg>
