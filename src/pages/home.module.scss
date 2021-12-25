@@ -1,1 +1,55 @@
-// TODO
+.container {
+  max-width: 1120px;
+
+  padding: 0 2rem;
+  margin: 5rem auto 0;
+
+  button {
+    color: var(--pink-400);
+    background: transparent;
+    border: 0;
+
+    margin-top: 4rem;
+  }
+
+  > img {
+    margin-bottom: 4rem;
+  }
+}
+
+.posts {
+  a {
+    display: block;
+    width: 100%;
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: bold;
+
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+
+      margin-bottom: 1.5rem;
+    }
+
+    .infoContainer {
+      display: flex;
+      gap: 1.25rem;
+
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        time,
+        span {
+          font-size: 0.875rem;
+          color: var(--grey-200);
+        }
+      }
+    }
+  }
+}

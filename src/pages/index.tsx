@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import { GetStaticProps } from 'next';
-import Image from 'next/image';
+import Link from 'next/link';
+import Head from 'next/head';
 
 import { getPrismicClient } from '../services/prismic';
 import Prismic from '@prismicio/client';
@@ -47,21 +48,41 @@ export default function Home({ postsResponse }: HomeProps) {
 
   return (
     <>
-      <img src="/Logo.svg" alt="logo" />
-      {/* <Image width={238} height={25} src="/Logo.svg" alt="logo" /> */}
-      <div>
-        {posts.map(post => (
-          <div key={post.uid}>
-            <p>{post.data.title}</p>
-            <p>{post.data.author}</p>
-          </div>
-        ))}
-      </div>
-      {nextPage && (
-        <button type="button" onClick={handleFetchMorePosts}>
-          Carregar mais
-        </button>
-      )}
+      <Head>
+        <title>Home | GG Code</title>
+      </Head>
+
+      <main className={styles.container}>
+        <img src="/Logo.svg" alt="logo" />
+        <div className={styles.posts}>
+          {posts.map(post => (
+            <Link href={`/post/${post.uid}`} key={post.uid}>
+              <a>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.subtitle}</p>
+
+                <div className={styles.infoContainer}>
+                  <div>
+                    <img src="/calendar.svg" />
+                    <time>{post.first_publication_date}</time>
+                  </div>
+
+                  <div>
+                    <img src="/user.svg" />
+                    <span>{post.data.author}</span>
+                  </div>
+                </div>
+              </a>
+            </Link>
+          ))}
+        </div>
+
+        {nextPage && (
+          <button type="button" onClick={handleFetchMorePosts}>
+            Carregar mais posts
+          </button>
+        )}
+      </main>
     </>
   );
 }
