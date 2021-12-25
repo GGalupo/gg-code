@@ -7,6 +7,9 @@ import Head from 'next/head';
 import { getPrismicClient } from '../services/prismic';
 import Prismic from '@prismicio/client';
 
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
@@ -37,12 +40,28 @@ export default function Home({ postsResponse }: HomeProps) {
 
   async function handleFetchMorePosts() {
     if (postsResponse.next_page) {
-      const newPosts: PostPagination = await fetch(
+      const fetchResponse: PostPagination = await fetch(
         postsResponse.next_page
       ).then(res => res.json());
 
-      setPosts([...posts, ...newPosts.results]);
-      setNextPage(newPosts.next_page);
+      const newPosts = fetchResponse.results.map(post => {
+        return {
+          uid: post.uid,
+          first_publication_date: format(
+            new Date(post.first_publication_date),
+            'ee MMM yyyy',
+            { locale: ptBR }
+          ),
+          data: {
+            title: post.data.title,
+            subtitle: post.data.subtitle,
+            author: post.data.author,
+          },
+        };
+      });
+
+      setPosts([...posts, ...newPosts]);
+      setNextPage(fetchResponse.next_page);
     }
   }
 
@@ -100,7 +119,11 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = postsPagination.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: post.first_publication_date,
+      first_publication_date: format(
+        new Date(post.first_publication_date),
+        'ee MMM yyyy',
+        { locale: ptBR }
+      ),
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
