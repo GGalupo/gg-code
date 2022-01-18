@@ -76,7 +76,7 @@ export default function Home({ postsPagination }: HomeProps) {
         <title>Home | GG Code</title>
       </Head>
 
-      <main className={styles.container}>
+      <main className={commonStyles.container}>
         <Image src="/Logo.svg" alt="logo" width={147} height={25} />
 
         <div className={styles.posts}>
@@ -103,7 +103,11 @@ export default function Home({ postsPagination }: HomeProps) {
         </div>
 
         {nextPage && (
-          <button type="button" onClick={handleFetchMorePosts}>
+          <button
+            className={styles.button}
+            type="button"
+            onClick={handleFetchMorePosts}
+          >
             Carregar mais posts
           </button>
         )}

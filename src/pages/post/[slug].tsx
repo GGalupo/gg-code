@@ -41,25 +41,28 @@ export default function Post({ post }: PostProps) {
       </Head>
       <span>Header</span>
 
-      <Image
-        src={post.data.banner.url}
-        alt={post.data.banner.alt}
-        width={1440}
-        height={400}
-      />
+      <main className={commonStyles.container}>
+        <Image
+          src={post.data.banner.url}
+          alt={post.data.banner.alt}
+          width={1440}
+          height={400}
+        />
+        <h1>{post.data.title}</h1>
+        <time>{post.first_publication_date}</time>
+        <span>{post.data.author}</span>
 
-      <h1>{post.data.title}</h1>
-      <time>{post.first_publication_date}</time>
-      <span>{post.data.author}</span>
-
-      {post.data.content.map((section, index) => (
-        <section key={index}>
-          <h2>{section.heading}</h2>
-          <div
-            dangerouslySetInnerHTML={{ __html: RichText.asHtml(section.body) }}
-          />
-        </section>
-      ))}
+        {post.data.content.map((section, index) => (
+          <section key={index}>
+            <h2>{section.heading}</h2>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: RichText.asHtml(section.body),
+              }}
+            />
+          </section>
+        ))}
+      </main>
     </>
   );
 }
