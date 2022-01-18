@@ -29,20 +29,20 @@ interface PostPagination {
 }
 
 interface HomeProps {
-  postsResponse: PostPagination;
+  postsPagination: PostPagination;
 }
 
-export default function Home({ postsResponse }: HomeProps) {
+export default function Home({ postsPagination }: HomeProps) {
   const [nextPage, setNextPage] = useState<string | null>(
-    postsResponse.next_page
+    postsPagination.next_page
   );
-  const [posts, setPosts] = useState<Post[]>(postsResponse.results);
+  const [posts, setPosts] = useState<Post[]>(postsPagination.results);
 
   async function handleFetchMorePosts() {
-    if (postsResponse.next_page) {
+    if (postsPagination.next_page) {
       try {
         const fetchResponse: PostPagination = await fetch(
-          postsResponse.next_page
+          postsPagination.next_page
         ).then(res => res.json());
 
         const newPosts = fetchResponse.results.map(post => {
@@ -112,7 +112,7 @@ export default function Home({ postsResponse }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
-  const postsPagination = await prismic.query(
+  const postsResponse = await prismic.query(
     [Prismic.predicates.at('document.type', 'post')],
     {
       fetch: ['post.title', 'post.subtitle', 'post.author'],
@@ -120,7 +120,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  const posts = postsPagination.results.map(post => {
+  const posts = postsResponse.results.map(post => {
     return {
       uid: post.uid,
       first_publication_date: format(
@@ -136,14 +136,14 @@ export const getStaticProps: GetStaticProps = async () => {
     };
   });
 
-  const postsResponse: PostPagination = {
-    next_page: postsPagination.next_page,
+  const postsPagination: PostPagination = {
+    next_page: postsResponse.next_page,
     results: posts,
   };
 
   return {
     props: {
-      postsResponse,
+      postsPagination,
     },
     revalidate: 60 * 60 * 12, // 12h
   };
