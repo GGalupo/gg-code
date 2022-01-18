@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
+import Image from 'next/image';
 
 import { getPrismicClient } from '../services/prismic';
 import Prismic from '@prismicio/client';
@@ -76,7 +77,8 @@ export default function Home({ postsPagination }: HomeProps) {
       </Head>
 
       <main className={styles.container}>
-        <img src="/Logo.svg" alt="logo" />
+        <Image src="/Logo.svg" alt="logo" width={147} height={25} />
+
         <div className={styles.posts}>
           {posts.map(post => (
             <Link href={`/post/${post.uid}`} key={post.uid}>
