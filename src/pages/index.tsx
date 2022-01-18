@@ -40,28 +40,32 @@ export default function Home({ postsResponse }: HomeProps) {
 
   async function handleFetchMorePosts() {
     if (postsResponse.next_page) {
-      const fetchResponse: PostPagination = await fetch(
-        postsResponse.next_page
-      ).then(res => res.json());
+      try {
+        const fetchResponse: PostPagination = await fetch(
+          postsResponse.next_page
+        ).then(res => res.json());
 
-      const newPosts = fetchResponse.results.map(post => {
-        return {
-          uid: post.uid,
-          first_publication_date: format(
-            new Date(post.first_publication_date),
-            'ee MMM yyyy',
-            { locale: ptBR }
-          ),
-          data: {
-            title: post.data.title,
-            subtitle: post.data.subtitle,
-            author: post.data.author,
-          },
-        };
-      });
+        const newPosts = fetchResponse.results.map(post => {
+          return {
+            uid: post.uid,
+            first_publication_date: format(
+              new Date(post.first_publication_date),
+              'ee MMM yyyy',
+              { locale: ptBR }
+            ),
+            data: {
+              title: post.data.title,
+              subtitle: post.data.subtitle,
+              author: post.data.author,
+            },
+          };
+        });
 
-      setPosts([...posts, ...newPosts]);
-      setNextPage(fetchResponse.next_page);
+        setPosts([...posts, ...newPosts]);
+        setNextPage(fetchResponse.next_page);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 
