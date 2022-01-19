@@ -23,12 +23,13 @@ interface Content {
 }
 
 interface Post {
+  uid: string;
   first_publication_date: string | null;
   data: {
     title: string;
+    subtitle: string;
     banner: {
       url: string;
-      alt: string;
     };
     author: string;
     content: Content[];
@@ -37,11 +38,32 @@ interface Post {
 
 interface PostProps {
   post: Post;
-  readTime: number;
 }
 
-export default function Post({ post, readTime }: PostProps) {
+export default function Post({ post }: PostProps) {
   const router = useRouter();
+
+  const reducer = (acc: number, val: Content) => {
+    const headingWords = val.heading.split(' ').length;
+    const bodyWords = RichText.asText(val.body).split(' ').length;
+
+    return acc + headingWords + bodyWords;
+  };
+
+  const getReadTime = (postContent: Content[]) => {
+    const words = postContent.reduce(reducer, 0);
+    const wordsPerMinute = 200;
+
+    return Math.ceil(words / wordsPerMinute);
+  };
+
+  const readTime = getReadTime(post.data.content);
+
+  const formattedDate = format(
+    new Date(post.first_publication_date),
+    'dd MMM yyyy',
+    { locale: ptBR }
+  );
 
   return (
     <>
@@ -58,7 +80,7 @@ export default function Post({ post, readTime }: PostProps) {
           <div className={styles.banner}>
             <Image
               src={post.data.banner.url}
-              alt={post.data.banner.alt}
+              alt={post.data.title}
               width={1440}
               height={400}
             />
@@ -76,7 +98,7 @@ export default function Post({ post, readTime }: PostProps) {
                     width={20}
                     height={20}
                   />
-                  <time>{post.first_publication_date}</time>
+                  <time>{formattedDate}</time>
                 </div>
                 <div>
                   <Image
@@ -144,17 +166,14 @@ export const getStaticProps: GetStaticProps = async context => {
   const response = await prismic.getByUID('post', String(slug), {});
 
   const post: Post = {
-    first_publication_date: format(
-      new Date(response.first_publication_date),
-      'ee MMM yyyy',
-      { locale: ptBR }
-    ),
+    uid: response.uid,
+    first_publication_date: response.first_publication_date,
     data: {
       author: response.data.author,
       title: response.data.title,
+      subtitle: response.data.subtitle,
       banner: {
         url: response.data.banner.url,
-        alt: response.data.banner.alt,
       },
       content: response.data.content.map((obj: Content) => ({
         heading: obj.heading,
@@ -163,26 +182,11 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   };
 
-  const reducer = (acc: number, val: Content) => {
-    const headingWords = val.heading.split(' ').length;
-    const bodyWords = RichText.asText(val.body).split(' ').length;
-
-    return acc + headingWords + bodyWords;
-  };
-
-  const getReadTime = (postContent: Content[]) => {
-    const words = postContent.reduce(reducer, 0);
-    const wordsPerMinute = 200;
-
-    return Math.ceil(words / wordsPerMinute);
-  };
-
-  const readTime = getReadTime(post.data.content);
+  console.log(post.uid);
 
   return {
     props: {
       post,
-      readTime,
     },
     revalidate: 60 * 60 * 12, // 12h
   };
