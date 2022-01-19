@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client';
@@ -40,59 +41,77 @@ interface PostProps {
 }
 
 export default function Post({ post, readTime }: PostProps) {
+  const router = useRouter();
+
   return (
     <>
       <Head>
         <title>{post.data.title} | GG Code</title>
       </Head>
 
-      <Header />
+      {router.isFallback ? (
+        <span>Carregando...</span>
+      ) : (
+        <>
+          <Header />
 
-      <div className={styles.banner}>
-        <Image
-          src={post.data.banner.url}
-          alt={post.data.banner.alt}
-          width={1440}
-          height={400}
-        />
-      </div>
-
-      <main className={commonStyles.container}>
-        <div className={styles.post}>
-          <h1>{post.data.title}</h1>
-
-          <div className={styles.postInfo}>
-            <div>
-              <Image
-                src="/calendar.svg"
-                alt="Clock logo"
-                width={20}
-                height={20}
-              />
-              <time>{post.first_publication_date}</time>
-            </div>
-            <div>
-              <Image src="/user.svg" alt="Clock logo" width={20} height={20} />
-              <span>{post.data.author}</span>
-            </div>
-            <div>
-              <Image src="/clock.svg" alt="Clock logo" width={20} height={20} />
-              <span>{readTime} min</span>
-            </div>
+          <div className={styles.banner}>
+            <Image
+              src={post.data.banner.url}
+              alt={post.data.banner.alt}
+              width={1440}
+              height={400}
+            />
           </div>
 
-          {post.data.content.map((section, index) => (
-            <section className={styles.postSection} key={index}>
-              <h2>{section.heading}</h2>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: RichText.asHtml(section.body),
-                }}
-              />
-            </section>
-          ))}
-        </div>
-      </main>
+          <main className={commonStyles.container}>
+            <div className={styles.post}>
+              <h1>{post.data.title}</h1>
+
+              <div className={styles.postInfo}>
+                <div>
+                  <Image
+                    src="/calendar.svg"
+                    alt="Clock logo"
+                    width={20}
+                    height={20}
+                  />
+                  <time>{post.first_publication_date}</time>
+                </div>
+                <div>
+                  <Image
+                    src="/user.svg"
+                    alt="Clock logo"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{post.data.author}</span>
+                </div>
+                <div>
+                  <Image
+                    src="/clock.svg"
+                    alt="Clock logo"
+                    width={20}
+                    height={20}
+                  />
+                  <span>{readTime} min</span>
+                </div>
+              </div>
+
+              {post.data.content.map((section, index) => (
+                <section className={styles.postSection} key={index}>
+                  <h2>{section.heading}</h2>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: RichText.asHtml(section.body),
+                    }}
+                  />
+                </section>
+              ))}
+            </div>
+          </main>
+        </>
+      )}
     </>
   );
 }
