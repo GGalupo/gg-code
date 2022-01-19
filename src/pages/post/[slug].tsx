@@ -6,6 +6,9 @@ import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
 
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import styles from './post.module.scss';
 import commonStyles from '../../styles/common.module.scss';
 
@@ -42,26 +45,46 @@ export default function Post({ post }: PostProps) {
       <span>Header</span>
 
       <main className={commonStyles.container}>
-        <Image
-          src={post.data.banner.url}
-          alt={post.data.banner.alt}
-          width={1440}
-          height={400}
-        />
-        <h1>{post.data.title}</h1>
-        <time>{post.first_publication_date}</time>
-        <span>{post.data.author}</span>
+        <div className={styles.post}>
+          <Image
+            src={post.data.banner.url}
+            alt={post.data.banner.alt}
+            width={1440}
+            height={400}
+          />
+          <h1>{post.data.title}</h1>
 
-        {post.data.content.map((section, index) => (
-          <section key={index}>
-            <h2>{section.heading}</h2>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: RichText.asHtml(section.body),
-              }}
-            />
-          </section>
-        ))}
+          <div className={styles.postInfo}>
+            <div>
+              <Image
+                src="/calendar.svg"
+                alt="Clock logo"
+                width={20}
+                height={20}
+              />
+              <time>{post.first_publication_date}</time>
+            </div>
+            <div>
+              <Image src="/user.svg" alt="Clock logo" width={20} height={20} />
+              <span>{post.data.author}</span>
+            </div>
+            <div>
+              <Image src="/clock.svg" alt="Clock logo" width={20} height={20} />
+              <span>X min</span>
+            </div>
+          </div>
+
+          {post.data.content.map((section, index) => (
+            <section className={styles.postSection} key={index}>
+              <h2>{section.heading}</h2>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: RichText.asHtml(section.body),
+                }}
+              />
+            </section>
+          ))}
+        </div>
       </main>
     </>
   );
@@ -95,7 +118,11 @@ export const getStaticProps: GetStaticProps = async context => {
   const response = await prismic.getByUID('post', String(slug), {});
 
   const post: Post = {
-    first_publication_date: response.first_publication_date,
+    first_publication_date: format(
+      new Date(response.first_publication_date),
+      'ee MMM yyyy',
+      { locale: ptBR }
+    ),
     data: {
       author: response.data.author,
       title: response.data.title,
