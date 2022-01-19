@@ -76,9 +76,11 @@ export default function Home({ postsPagination }: HomeProps) {
         <title>Home | GG Code</title>
       </Head>
 
-      <main className={commonStyles.container}>
+      <div className={styles.homeHeader}>
         <Image src="/Logo.svg" alt="logo" width={147} height={25} />
+      </div>
 
+      <main className={commonStyles.container}>
         <div className={styles.posts}>
           {posts.map(post => (
             <Link href={`/post/${post.uid}`} key={post.uid}>
