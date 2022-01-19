@@ -44,14 +44,17 @@ export default function Post({ post }: PostProps) {
       </Head>
       <span>Header</span>
 
+      <div className={styles.banner}>
+        <Image
+          src={post.data.banner.url}
+          alt={post.data.banner.alt}
+          width={1440}
+          height={400}
+        />
+      </div>
+
       <main className={commonStyles.container}>
         <div className={styles.post}>
-          <Image
-            src={post.data.banner.url}
-            alt={post.data.banner.alt}
-            width={1440}
-            height={400}
-          />
           <h1>{post.data.title}</h1>
 
           <div className={styles.postInfo}>
