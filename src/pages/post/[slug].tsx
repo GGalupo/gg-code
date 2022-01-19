@@ -6,6 +6,8 @@ import { getPrismicClient } from '../../services/prismic';
 import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
 
+import Header from '../../components/Header';
+
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -43,7 +45,8 @@ export default function Post({ post, readTime }: PostProps) {
       <Head>
         <title>{post.data.title} | GG Code</title>
       </Head>
-      <span>Header</span>
+
+      <Header />
 
       <div className={styles.banner}>
         <Image
