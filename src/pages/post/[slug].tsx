@@ -34,9 +34,10 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  readTime: number;
 }
 
-export default function Post({ post }: PostProps) {
+export default function Post({ post, readTime }: PostProps) {
   return (
     <>
       <Head>
@@ -73,7 +74,7 @@ export default function Post({ post }: PostProps) {
             </div>
             <div>
               <Image src="/clock.svg" alt="Clock logo" width={20} height={20} />
-              <span>X min</span>
+              <span>{readTime} min</span>
             </div>
           </div>
 
@@ -140,9 +141,26 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   };
 
+  const reducer = (acc: number, val: Content) => {
+    const headingWords = val.heading.split(' ').length;
+    const bodyWords = RichText.asText(val.body).split(' ').length;
+
+    return acc + headingWords + bodyWords;
+  };
+
+  const getReadTime = (postContent: Content[]) => {
+    const words = postContent.reduce(reducer, 0);
+    const wordsPerMinute = 200;
+
+    return Math.ceil(words / wordsPerMinute);
+  };
+
+  const readTime = getReadTime(post.data.content);
+
   return {
     props: {
       post,
+      readTime,
     },
     revalidate: 60 * 60 * 12, // 12h
   };
